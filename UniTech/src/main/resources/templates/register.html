@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Register</title>
+     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+</head>
+<body>
+    <h2 style="text-align: center;">Register</h2>
+    <form th:action="@{/register}" method="post" style="text-align: center;" th:object="${userRegistrationDTO}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"  th:field="*{username}" required/>
+        <div style="color: red" th:if="${#fields.hasErrors('username')}"
+					th:errors="*{username}">Name Error</div>
+        <br/>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"  th:field="*{password}" required/>
+        <div style="color: red" th:if="${#fields.hasErrors('password')}"
+					th:errors="*{password}">Name Error</div>
+        <br/>
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword"  th:field="*{cpassword}"required/>
+        <div style="color: red" th:if="${#fields.hasErrors('cpassword')}"
+					th:errors="*{cpassword}">Name Error</div>
+        <br/>
+         <label for="username">Pincode:</label>
+        <input type="text" id="pincode" name="pincode" th:field="*{pincode}" required/>
+        <div style="color: red" th:if="${#fields.hasErrors('pincode')}"
+					th:errors="*{pincode}">Name Error</div>
+        <br/>
+        <button type="submit">Register</button>
+    </form>
+    <br/>
+    <div style="text-align: center;">
+    <a th:href="@{/login}">Login</a>
+    <span>|</span>
+    <a th:href="@{/}">Main page</a>
+    </div>
+</body>
+</html>

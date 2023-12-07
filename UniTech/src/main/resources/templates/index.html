@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>UniTech</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+
+	<div class="container" style="text-align: center;">
+
+		<h1>Welcome to UniTech</h1>
+
+		<div>
+			<span sec:authorize="!isAuthenticated()">
+				<a th:href="@{/login}">Login</a>
+			</span>
+			<span> | </span>
+			<a th:href="@{/register}">Register</a>
+			<span> | </span>
+			<a th:href="@{/user-details}">My page</a>
+			<span> | </span>
+			<a th:href="@{/currency-converter}">Converter</a>
+		</div>
+
+
+	</div>
+
+</body>
+
+</html>

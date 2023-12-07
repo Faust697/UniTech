@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+      <meta charset="UTF-8"/>
+    <title>UniTech</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<h1 style="text-align: center;">Currency Converter</h1>
+<h2 style="text-align: center;">Last Modification Date: <span th:text="${lastModificationDate}"></span></h2>
+
+<form action="/currency-converter/convert" method="post">
+    <label for="amount">Amount:</label>
+    <input type="text" id="amount" pattern="\d+(\.\d{1,2})?" maxlength="10" minlength="1"  name="amount" required/>
+
+    <label for="fromCurrency">From Currency:</label>
+    <select id="fromCurrency" name="fromCurrency">
+        <option th:each="currency : ${currencies}" th:value="${currency.name}" th:text="${currency.name}" />
+    </select>
+
+    <label for="toCurrency">To Currency:</label>
+    <select id="toCurrency" name="toCurrency">
+        <option th:each="currency : ${currencies}" th:value="${currency.name}" th:text="${currency.name}" />
+    </select>
+
+    <button type="submit">Convert</button>
+</form>
+
+<div  th:if="${result}">
+    <p style="text-align: center;" th:text="'Result: ' + ${result}" />
+    
+</div>
+
+ <div style="text-align: center;">
+   <span sec:authorize="!isAuthenticated()">
+				<a th:href="@{/login}">Login</a>
+			</span>
+			<span> | </span>
+			<a th:href="@{/register}">Register</a>
+			<span> | </span>
+			<a th:href="@{/user-details}">My page</a>
+			<span> | </span>
+    </div>
+
+</body>
+</html>

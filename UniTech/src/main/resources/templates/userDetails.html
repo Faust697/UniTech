@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>User Details</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<h2>User Details</h2>
+
+	<form>
+		<label>Username</label>
+		<input type="text" th:value="${user.username}" disabled="disabled" />
+
+		<label>Pincode</label>
+		<input type="text" th:value="${user.pincode}" disabled="disabled" />
+
+		<div style="color: red" th:if="${#fields.hasErrors('transferRequestDTO.targetAccountId')}"
+			th:errors="*{transferRequestDTO.targetAccountId}">Targert</div>
+		<div style="color: red" th:if="${#fields.hasErrors('transferRequestDTO.amount')}"
+			th:errors="*{transferRequestDTO.amount}">Money</div>
+
+		<a th:href="@{/create-account}">Create Account</a>
+
+		<h3>Bank Accounts</h3>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Account Number</th>
+					<th>Balance(EUR)</th>
+					<th>Status</th>
+					<th>Transactions</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Loop through the bank accounts and populate the table -->
+				<tr th:each="account : ${bankAccounts}">
+					<td th:text="${account.name}"></td>
+					<td th:text="${account.money.toString()}+ ' €'"></td>
+					<td>
+						<span th:if="${account.activityStatus}">&#10004;</span>
+						<span th:unless="${account.activityStatus}">&#10008;</span>
+
+						<a th:href="@{'/changeStatus?accountName=' + ${account.name} + '&userId=' + ${account.userId}}">Change
+							Status</a>
+					</td>
+					<td>
+						<span th:if="${account.activityStatus}">
+
+							<button type="button" class="btn btn-primary transfer-button" data-toggle="modal"
+								data-target="#transferModal" th:data-account-id="${account.name}"
+								th:data-user-pincode="${user.pincode}">Transfer</button>
+						</span>
+					</td>
+					
+				</tr>
+			</tbody>
+		</table>
+
+		<a th:href="@{/}">Go back</a>
+		<span> | </span>
+		<a th:href="@{/logout}">Logout</a>
+		<span> | </span>
+		<a th:href="@{/currency-converter}">Converter</a>
+
+	</form>
+
+	<div th:insert="~{fragments/transferModal :: transferModal}" id="transa"></div>
+
+
+
+
+
+
+
+
+	<script th:inline="javascript">
+		$(document).ready(function () {
+			$('.transfer-button').click(function () {
+				// Получение значений из атрибутов data-* и установка их в скрытые поля формы
+				var accountName = $(this).data('account-id');
+				console.log('Account Name:', accountName);
+				$('#sourceAccountId').val(accountName);
+
+				var userPincode = $(this).data('user-pincode');
+				console.log('User Pincode:', userPincode);
+				$('#userPincode').val(userPincode);
+			});
+		});
+	</script>
+
+</html>
