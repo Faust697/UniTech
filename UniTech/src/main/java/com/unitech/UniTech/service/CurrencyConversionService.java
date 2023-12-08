@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.unitech.UniTech.model.CurrencyEntity;
 import com.unitech.UniTech.repository.CurrencyRepo;
 
+//Серивис для конвератиции валют, просто берём валюту, число и перемножаем на модуль
 @Service
 public class CurrencyConversionService {
 
