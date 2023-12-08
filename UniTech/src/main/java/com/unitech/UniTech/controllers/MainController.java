@@ -139,16 +139,12 @@ if(user!=null)
 
     
     
-    
+    //Пытаемся перевести деньги
     @PostMapping("/transfer")
     public String transferMoney(@ModelAttribute("transferRequestDTO") TransferRequestDTO transferRequestDTO,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
 
-        System.out.println("User Pincode: " + transferRequestDTO.getUserPincode());
-        System.out.println("User source account: " + transferRequestDTO.getSourceAccountId());
-        System.out.println("Recipient account : " + transferRequestDTO.getTargetAccountId());
-        System.out.println("Amount: " + transferRequestDTO.getAmount());
 
         validationService.targetAccountNumberValidation(transferRequestDTO.getTargetAccountId(), bindingResult);
         validationService.enougMoneyValidation(transferRequestDTO.getAmount(), transferRequestDTO.getSourceAccountId(), bindingResult);
@@ -188,7 +184,7 @@ if(user!=null)
     }
 
     
-    
+    //Меняем статус одного из счетов
     @GetMapping("/changeStatus")
     public String deactivateAccount(@RequestParam("userId") String userId, @RequestParam("accountName") String accountName, Model model) {
     	
@@ -199,7 +195,7 @@ if(user!=null)
 ;
     	if(a1.equals(a2))
     	{
-    	  	System.out.println(a1+"equal"+a2+"!");
+    	  	
     	        // Логика деактивации аккаунта, например, изменение статуса в базе данных
     	        AccountEntity account = accountRepo.findByName(accountName).get();
     	        		
@@ -208,13 +204,14 @@ if(user!=null)
     	        accountRepo.save(account);
     	        return "redirect:/user-details"; // перенаправление пользователя после деактивации
     	    } else {
-    	        // Обработка случая, когда пин-код не совпадает
+    	 
     	        return "redirect:/user-details"; 
     	    }
 
     	
     }
-    
+
+	//Получаем личный кабинет юзера
     @GetMapping("/user-details")
     public String showCurrentUserDetails(Model model, RedirectAttributes redirectAttributes) {
         TransferRequestDTO transferRequestDTO = (TransferRequestDTO) model.getAttribute("transferRequestDTO");
@@ -250,7 +247,7 @@ if(user!=null)
 
         return "userDetails";
     }
-    
+    //Получаем юзера, хорошо бы вынести в сервис, но времени мало
     public UserEntity getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
@@ -261,7 +258,7 @@ if(user!=null)
         return null;
     }
     
-    
+    //Конвертер валют
     @GetMapping("/currency-converter")
     public String showCurrencyConverter(Model model) {
     	 List<CurrencyEntity> currencies = currencyRepo.findAll()
@@ -281,7 +278,7 @@ if(user!=null)
         return "currency-converter";
     }
     
-    
+    //Тут уже прямо конвертируем валюту в другую
     @PostMapping("/currency-converter/convert")
     public String convertCurrency(
             @RequestParam("amount") BigDecimal amount,
@@ -313,7 +310,7 @@ if(user!=null)
     
     
     
-
+//Страница регистрации
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("userRegistrationDTO", new UserRegistrationDTO());
@@ -322,7 +319,7 @@ if(user!=null)
     
 
     
-    
+    //Сама регистрация
 	@PostMapping("/register")
 	public String registerUser(@ModelAttribute("userRegistrationDTO") UserRegistrationDTO registrationDTO, Model model,
 			BindingResult bindingResult) {
