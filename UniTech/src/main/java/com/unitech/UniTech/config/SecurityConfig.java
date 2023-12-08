@@ -78,7 +78,7 @@ public class SecurityConfig {
 	    }
 
 
-	 
+	//Для доступа к к базе Н2(loackalhost:8080/h2-console )
     @Configuration 
     class securityConfig {
         @Bean
