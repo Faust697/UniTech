@@ -35,7 +35,7 @@ public class CurrencyUpdateService {
 	}
 
     @Async
-    @Scheduled(fixedRate = 600000) // Запускать каждую минуту
+    @Scheduled(fixedRate = 60000) // Запускать каждую минуту
     public void updateCurrencyRates() throws IOException, Exception {
 
         HttpRequest request = HttpRequest.newBuilder()
